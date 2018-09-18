@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CoreAPI.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreAPI
 {
@@ -24,10 +26,12 @@ namespace CoreAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //services.AddMvc().AddXmlSerializerFormatters(); //return XML
+            services.AddDbContext<ProductDBContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ProductsDb;integrated security=true"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ProductDBContext productDBContext)
         {
             if (env.IsDevelopment())
             {
@@ -35,6 +39,8 @@ namespace CoreAPI
             }
 
             app.UseMvc();
+            productDBContext.Database.EnsureCreated();
+
         }
     }
 }

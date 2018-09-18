@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CoreAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using CoreAPI.Data;
 
 namespace CoreAPI.Controllers
 {
@@ -12,19 +12,43 @@ namespace CoreAPI.Controllers
     [Route("api/Products")]
     public class ProductsController : Controller
     {
-       static List<Product> _products = new List<Product>()
-        {
-            new Product(){ProductId= 0,ProductName="Laptop", ProductPrice="200"},
-            new Product(){ProductId= 1,ProductName="SmartPhone", ProductPrice="200"}
-        };
+        private ProductDBContext _productsDbContext;
 
-        public IEnumerable<Product> Get() {
-            return _products;
+        public ProductsController(ProductDBContext productsDbContext)
+        {
+            _productsDbContext = productsDbContext;
         }
 
-            public void Post(Product product)
+        // GET: api/Products
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            _products.Add(product);
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET: api/Products/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+        
+        // POST: api/Products
+        [HttpPost]
+        public void Post([FromBody]string value)
+        {
+        }
+        
+        // PUT: api/Products/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+        
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
         }
     }
 }
