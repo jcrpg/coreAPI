@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CoreAPI.Data;
 using Microsoft.EntityFrameworkCore;
-
+using CoreAPI.Services;
+using Swashbuckle.AspNetCore.Swagger;
 namespace CoreAPI
 {
     public class Startup
@@ -26,17 +27,22 @@ namespace CoreAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddApiVersioning();
             //services.AddMvc().AddXmlSerializerFormatters(); //return XML
-            services.AddDbContext<ProductDBContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ProductsDb;integrated security=true"));
+            services.AddDbContext<ProductsDBContext>(option => option.UseSqlServer(@"Data Source=JCLP\SQLEXPRESS;Initial Catalog=CoreAPI;Integrated Security=true;"));
+            services.AddScoped<IProduct, ProductRepository>();
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info() { Title = "Product", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ProductDBContext productDBContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ProductsDBContext productDBContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API for Prouct"));
 
             app.UseMvc();
             productDBContext.Database.EnsureCreated();

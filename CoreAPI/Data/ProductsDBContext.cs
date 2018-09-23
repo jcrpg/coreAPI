@@ -7,10 +7,10 @@ using CoreAPI.Models;
 
 namespace CoreAPI.Data
 {
-    public class ProductDBContext:DbContext
+    public class ProductsDBContext:DbContext
     {
 
-        public ProductDBContext(DbContextOptions<ProductDBContext> options):base(options)
+        public ProductsDBContext(DbContextOptions<ProductsDBContext> options):base(options)
         {
 
         } 

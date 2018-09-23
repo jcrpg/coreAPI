@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CustomerController.cs" />
+    <Compile Remove="Controllers\MoviesV1Controller.cs" />
+    <Compile Remove="Controllers\ProductsBUController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <PackageReference Include="System.Web.Http.Common" Version="4.0.20126.16343" />
   </ItemGroup>
 
